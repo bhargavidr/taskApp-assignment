@@ -53,6 +53,23 @@ userCtrl.login = async (req, res) => {
     }
 };
 
+userCtrl.getSingleUser = async (req, res) => {
+    try {
+        const id = req.params.id
+        const user = await User.findById(id)
+
+        if (!user) {
+               return res.status(404).json({ error: 'User not found' });
+        }
+        // const comments = await Comment.find({taskId : id})
+        // return res.status(200).json({task, comments});
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+};
+
 userCtrl.account = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);

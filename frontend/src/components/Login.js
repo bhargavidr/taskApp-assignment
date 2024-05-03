@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
-    const { dispatchAuth } = useAuth();
+    const { dispatchAuth, PORT } = useAuth();
     const navigate = useNavigate();
 
     const [form, setForm] = useState({
@@ -40,15 +40,15 @@ export default function Login() {
 
         if (Object.keys(errors).length === 0) {
             try {
-                const response = await axios.post('http://localhost:5000/api/users/login', formData); // Replace 'YOUR_LOGIN_ENDPOINT' with your actual login endpoint
+                const response = await axios.post(`http://localhost:${PORT}/api/users/login`, formData); // Replace 'YOUR_LOGIN_ENDPOINT' with your actual login endpoint
                 localStorage.setItem('token', response.data.token);
-                const userResponse = await axios.get('http://localhost:5000/api/users/account', {
+                const userResponse = await axios.get(`http://localhost:${PORT}/api/users/account`, {
                     headers: {
                         Authorization: localStorage.getItem('token')
                     }
                 });
                 dispatchAuth({type:'LOGIN', payload:userResponse.data});
-                console.log(userResponse.data)
+                // console.log(userResponse.data)
                 navigate('/');
             } catch (err) {
                 setForm({ ...form, serverErrors: err.response.data.error, clientErrors: {} });

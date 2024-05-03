@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
+
 // Create context
 const AuthContext = createContext();
 
@@ -24,7 +25,9 @@ export const AuthProvider = ({ children }) => {
         account: null
     })
 
-  return <AuthContext.Provider value={{user, dispatchAuth}}>{children}</AuthContext.Provider>;
+    const PORT = 5000
+
+  return <AuthContext.Provider value={{PORT, user, dispatchAuth}}>{children}</AuthContext.Provider>;
 };
 
 // Custom hook to use auth context

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'
 
 export default function Register() {
     const navigate = useNavigate();
@@ -12,6 +13,8 @@ export default function Register() {
     const [clientErrors, setClientErrors] = useState({});
 
     const errors = {};
+
+    const {PORT} = useAuth()
 
     const runValidations = () => {
         if (username.trim().length === 0) {
@@ -44,7 +47,7 @@ export default function Register() {
 
         if (Object.keys(errors).length === 0) {
             try {
-                const response = await axios.post('http://localhost:5000/api/users/register', formData);
+                const response = await axios.post(`http://localhost:${PORT}/api/users/register`, formData);
                 navigate('/login');
             } catch (err) {
                 setServerErrors(err.response.data.details);
