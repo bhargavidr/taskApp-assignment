@@ -6,24 +6,37 @@ const taskSchema = new mongoose.Schema({
         required: true
     },
     description: {
-        type: String,
+        type: String
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Reference to the User model
         required: true
     },
-    dueDate: {
-        type: Date,
-        required: true
+    assignedTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User' // Reference to the User model
+    },
+    status: {
+        type: String,
+        enum: ['To Do', 'In Progress', 'Done'],
+        default: 'To Do'
     },
     priority: {
         type: String,
-        required: true
+        enum: ['Low', 'Medium', 'High'],
+        default: 'Medium'
     },
-    status: {
-        type: Boolean,
-        required: true
-    },    
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    completedAt: {
+        type: Date
+    },
+    timeSpent: {
+        type: Number,
+        default: 0 // Represents time spent in minutes
     }
 });
 
