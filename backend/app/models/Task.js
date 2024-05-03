@@ -13,10 +13,10 @@ const taskSchema = new mongoose.Schema({
         ref: 'User', // Reference to the User model
         required: true
     },
-    assignedTo: {
+    assignedTo: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' // Reference to the User model
-    },
+    }],
     status: {
         type: String,
         default: 'To Do'
