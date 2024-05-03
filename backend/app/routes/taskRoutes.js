@@ -19,6 +19,7 @@ router.post('', taskValidate.create, taskCtrl.createTask);
 router.get('/:id',isValidID,authLayer.task, taskCtrl.getSingleTask); 
 router.put('/:id',isValidID, authLayer.task, taskValidate.update, taskCtrl.updateTask);
 router.delete('/:id',isValidID, authLayer.task, taskCtrl.deleteTask);
+router.post('/assignUsers', taskCtrl.assignUsersToTask);
 
 
 
