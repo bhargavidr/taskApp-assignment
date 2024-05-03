@@ -20,7 +20,7 @@ userCtrl.register = async (req, res) => {
         await user.save();
         res.status(201).json(user);
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -48,7 +48,7 @@ userCtrl.login = async (req, res) => {
         }
         res.status(404).json({ error: 'Invalid email/password' });
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -58,7 +58,7 @@ userCtrl.account = async (req, res) => {
         const user = await User.findById(req.user.id);
         res.json(user);
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };

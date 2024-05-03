@@ -53,15 +53,15 @@ const register = Joi.object({
             .trim(true),
 
     password:Joi.string()
-                .min(5)
-                .max(20)
+                .min(8)
+                .max(128)
                 .required()               
 })
 
 //custom validation for email
 const validateAsync = async (value) => {
     const user = await User.findOne({ email: value });
-    console.log(user, 'user custom validation');
+    // console.log(user, 'user custom validation');
     if (user) {
         throw new Joi.ValidationError('Email already taken', [{
             message: 'Email already taken',
@@ -79,8 +79,8 @@ const validateRegister = async(req,res,next) => {
     try {
         const { error, value } = register.validate(req.body, { abortEarly: false });
         if (error) {
-            console.log(error, 'validation')
-            return res.status(400).json(error);
+            // console.log(error, 'validation')
+            return res.status(400).json(error.details);
         }
         await validateAsync(value.email);
         next()

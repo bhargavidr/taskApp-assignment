@@ -17,8 +17,8 @@ validateLogin = async(req,res,next) => {
     try {
         const { error, value } = login.validate(req.body, { abortEarly: false });
         if (error) {
-            console.log(error, 'validation')
-            return res.status(400).json(error);
+            // console.log(error, 'validation')
+            return res.status(400).json(error.details);
         }
         next()
     } catch (err) {
