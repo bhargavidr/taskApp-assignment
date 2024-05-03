@@ -21,5 +21,5 @@ exports.authenticateUser = async (req, res, next) => {
 };
 
 exports.authorizeUser = (req, res, next) => {
-    // for update and delete - if(req.user.id != req.params.id) then unauthorized otherwise next()
-};
+    
+}

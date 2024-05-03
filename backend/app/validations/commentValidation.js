@@ -6,7 +6,9 @@ const commentSchema = Joi.object({
         .required()
         .trim(true)
         .min(1)
-        .max(255)
+        .max(255),
+
+    taskId: Joi.string()
 });
 
 

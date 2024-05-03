@@ -1,4 +1,5 @@
 const Task = require('../models/Task');
+const Comment = require("../models/Comment")
 // const { validationResult } = require('express-validator')
 const taskCtrl = {};
 
@@ -15,14 +16,18 @@ taskCtrl.getAllTasks = async (req, res) => {
 
 taskCtrl.getSingleTask = async (req, res) => {
     try {
-        const task = await Task.findById(req.params.id);
-        // if(task.createdBy == req.user.id)
+        const id = req.params.id
+        const task = await Task.findById(id)
+
         if (!task) {
-            return res.status(404).json({ error: 'Task not found' });
+               return res.status(404).json({ error: 'Task not found' });
         }
-        res.status(200).json(task); //B - do res.json(task, req.comments)
+
+        // const comments = await Comment.find({taskId : id})
+        // return res.status(200).json({task, comments});
+        
     } catch (err) {
-        // console.error(err);
+        console.error(err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };

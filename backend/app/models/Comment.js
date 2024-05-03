@@ -16,7 +16,7 @@ const commentSchema = new mongoose.Schema({
         type: Date, //B - removed default as time should also be added in Ctrl
         required:true
     },
-    task: {
+    taskId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Task', // Reference to the Task model
         required: true

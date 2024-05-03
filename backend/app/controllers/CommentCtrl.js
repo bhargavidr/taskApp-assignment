@@ -6,7 +6,7 @@ const commentCtrl = {};
 // Create a new comment
 commentCtrl.create= async (req, res) => {
     try {
-        const { taskId, content } = req.body;
+        const { taskId, text } = req.body;
         const task = await Task.findById(taskId);
 
         if (!task) {
@@ -14,9 +14,10 @@ commentCtrl.create= async (req, res) => {
         }
 
         const comment = new Comment({
-            task: taskId,
-            content,
-            createdBy: req.user._id // Assuming the authenticated user is creating the comment
+            taskId,
+            text,
+            createdBy: req.user._id,
+            createdAt: new Date() // Assuming the authenticated user is creating the comment
         });
 
         await comment.save();
@@ -33,8 +34,8 @@ commentCtrl.getCommentsByTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
         const comments = await Comment.find({ task: taskId });
-
         res.json(comments);
+        //can have req.comments = comments and passed in getSingleTask api (for later)
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
@@ -42,12 +43,12 @@ commentCtrl.getCommentsByTask = async (req, res) => {
 };
 
 // Update a comment
-commentCtrl.update = async (req, res) => {
+commentCtrl.edit = async (req, res) => {
     try {
-        const commentId = req.params.commentId;
-        const { content } = req.body;
+        const commentId = req.params.id;
+        const { text } = req.body;
 
-        const comment = await Comment.findByIdAndUpdate(commentId, { content }, { new: true });
+        const comment = await Comment.findByIdAndUpdate(commentId, { text }, { new: true });
 
         if (!comment) {
             return res.status(404).json({ error: 'Comment not found' });
@@ -63,7 +64,7 @@ commentCtrl.update = async (req, res) => {
 // Delete a comment
 commentCtrl.delete = async (req, res) => {
     try {
-        const commentId = req.params.commentId;
+        const commentId = req.params.id;
 
         const comment = await Comment.findByIdAndDelete(commentId);
 
