@@ -4,7 +4,7 @@ const Task = require('../models/Task');
 const commentCtrl = {};
 
 // Create a new comment
-commentCtrl.createComment = async (req, res) => {
+commentCtrl.create = async (req, res) => {
     try {
         const { taskId, content } = req.body;
         const task = await Task.findById(taskId);
@@ -42,7 +42,7 @@ commentCtrl.getCommentsByTask = async (req, res) => {
 };
 
 // Update a comment
-commentCtrl.updateComment = async (req, res) => {
+commentCtrl.edit = async (req, res) => {
     try {
         const commentId = req.params.commentId;
         const { content } = req.body;
@@ -61,7 +61,7 @@ commentCtrl.updateComment = async (req, res) => {
 };
 
 // Delete a comment
-commentCtrl.deleteComment = async (req, res) => {
+commentCtrl.delete = async (req, res) => {
     try {
         const commentId = req.params.commentId;
 
