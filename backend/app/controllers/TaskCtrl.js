@@ -21,7 +21,7 @@ taskCtrl.getSingleTask = async (req, res) => {
         if (!task) {
             return res.status(404).json({ error: 'Task not found' });
         }
-        res.status(200).json(task);
+        res.status(200).json(task); //B - do res.json(task, req.comments)
     } catch (err) {
         // console.error(err);
         res.status(500).json({ error: 'Something went wrong' });

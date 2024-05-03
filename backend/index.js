@@ -7,6 +7,9 @@ const configureDB = require('./config/db');
 // Importing routes, controllers, and middleware
 const taskRoutes = require('./app/routes/taskRoutes');
 const userRoutes = require('./app/routes/userRoutes');
+const commentRoutes = require('./app/routes/commentRoutes')
+
+
 const authMiddleware = require('./app/middleware/authMiddleware');
 
 const app = express();
@@ -22,6 +25,7 @@ configureDB();
 // Routes
 app.use('/api/tasks', authMiddleware.authenticateUser, taskRoutes); // Task management routes with authentication middleware
 app.use('/api/users', userRoutes); // User management routes
+app.use('/api/comments',authMiddleware.authenticateUser, commentRoutes) //comments controller
 
 // Error handling middleware
 app.use((err, req, res, next) => {

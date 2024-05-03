@@ -1,14 +1,7 @@
 const Joi = require('joi');
 
 const commentSchema = Joi.object({
-    taskId: Joi.string()
-        .required()
-        .trim(true),
-
-    userId: Joi.string()
-        .required()
-        .trim(true),
-
+    //B - removed task Id and userId as it is not sent by the user. Check TaskCtrl.create - line 48
     text: Joi.string()
         .required()
         .trim(true)

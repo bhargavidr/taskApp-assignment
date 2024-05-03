@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
-    content: {
+    text: {
         type: String,
         required: true
     },
@@ -13,8 +13,8 @@ const commentSchema = new mongoose.Schema({
         required: true
     },
     createdAt: {
-        type: Date,
-        default: Date.now
+        type: Date, //B - removed default as time should also be added in Ctrl
+        required:true
     },
     task: {
         type: mongoose.Schema.Types.ObjectId,
