@@ -12,7 +12,7 @@ const taskValidate = require('../validations/taskValidation')
 router.get('', taskCtrl.getAllTasks);
 router.post('', taskCtrl.createTask);
 //B - added get comments here so if we fetch one task, all comments under that task is also displayed
-router.get('/:id',taskValidate.isValidID,commentCtrl.getTaskComments, taskCtrl.getSingleTask); 
+router.get('/:id',taskValidate.isValidID,commentCtrl.getCommentByTask, taskCtrl.getSingleTask); 
 router.put('/:id',taskValidate.isValidID, taskValidate.update, taskCtrl.updateTask);
 router.delete('/:id', taskValidate.isValidID, taskCtrl.deleteTask);
 
