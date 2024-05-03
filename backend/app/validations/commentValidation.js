@@ -17,7 +17,7 @@ const validateComment = async (req, res, next) => {
             console.log(error, 'validation');
             return res.status(400).json(error);
         }
-        next();
+        next()
     } catch (err) {
         return res.status(400).json(err);
     }

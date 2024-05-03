@@ -65,7 +65,7 @@ const validateAsync = async (value) => {
     if (user) {
         throw new Joi.ValidationError('Email already taken', [{
             message: 'Email already taken',
-            type: 'string.emailTaken',
+            type: 'string.email',
             path: ['email'],
             value,
         }]);

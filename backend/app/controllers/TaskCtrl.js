@@ -1,6 +1,5 @@
 const Task = require('../models/Task');
 // const { validationResult } = require('express-validator')
-const createTask = require('../validations/createTaskValidation')
 const taskCtrl = {};
 
 // Function to get all tasks
@@ -32,12 +31,6 @@ taskCtrl.getSingleTask = async (req, res) => {
 // Function to create a new task
 taskCtrl.createTask = async (req, res) => {
     try {
-        const {error, value} = createTask.validate(req.body);
-        // console.log(error,'error object')
-        // console.log(value, 'value object')
-    if (error) {
-        return res.status(400).json(error.details);
-    }
         const { title, description, dueDate, priority, status } = req.body;
         const newTask = new Task({
             title,
