@@ -16,6 +16,8 @@ const createTask = Joi.object({
                 .greater('now').message('due date must not be in the past')
                 .required(),
 
+    assignedTo:Joi.array().min(1),
+
     priority:Joi.string()
                 .valid('high','medium','low')
                 .trim(true),

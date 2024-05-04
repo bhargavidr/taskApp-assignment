@@ -9,7 +9,7 @@ const taskSchema = new mongoose.Schema({
         type: String
     },
     createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Object,
         ref: 'User', // Reference to the User model
         required: true
     },
@@ -24,6 +24,10 @@ const taskSchema = new mongoose.Schema({
     priority: {
         type: String,
         default: 'Medium'
+    },
+    dueDate:{
+        type:String,
+        required: true
     },
     createdAt: {
         type: Date,

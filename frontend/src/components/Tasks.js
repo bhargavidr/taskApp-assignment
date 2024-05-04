@@ -7,7 +7,7 @@ function Tasks() {
     
     // const {setTasks} = useTaskAuth()
     const {user, PORT} = useAuth()
-    const [tasks,setTasks] = useState(['No tasks found'])
+    const [tasks,setTasks] = useState(null)
     
 
     useEffect(() => {
@@ -17,29 +17,22 @@ function Tasks() {
                 const taskResponse = await axios.get(`http://localhost:${PORT}/api/tasks`, {
                     headers: {
                         Authorization: localStorage.getItem('token')
+                        }
+                    });
+
+                    if(taskResponse){
+                        setTasks(taskResponse.data);
+                        console.log('taskResponse',taskResponse)
+                    }else{
+                        console.log('error fetching tasks')
                     }
-                });
-                if(taskResponse){
-                    
-                    // (async() => {
-                    //     const creatorsIDs = tasks.map((ele) => ele.createdBy)
-                    //     console.log(creatorsIDs)
-                    //     creatorsIDs.forEach(async (ele) => {
-                    //             const response = await axios.get(`http://localhost:${PORT}/api/users/${ele}`)
-                    //             taskResponse.creatorNames = response.data.usernames
-                    //         })
-                    // })();
-                    setTasks(taskResponse.data);
-                }
+                
             } catch (error) {
                 console.error("Error fetching tasks:", error);
             }
         }   
 
-        getTasks();
-        
-        // function to get task Owner name
-        
+        getTasks();           
 
     },[])
         
@@ -47,7 +40,8 @@ function Tasks() {
   return (
     <div>
       <h3>Tasks</h3>
-      <table>
+      {tasks ? (
+        <table>
         <thead>
             <th> Title </th>
             <th> Created By </th>
@@ -56,9 +50,10 @@ function Tasks() {
         </thead>
         <tbody>
                 {tasks.map((ele) => {
+                    // console.log('tasks',ele)
                     return(<tr key = {ele.id} align="center">
                         <td>{ele.title}</td>
-                        <td>{ele.createdBy}</td>
+                        <td>{ele.createdBy.username}</td>
                         <td>{ele.status}</td>
                         <td>{ele.priority}</td>
 
@@ -67,6 +62,9 @@ function Tasks() {
                 })}
         </tbody>
       </table>
+      ) : (
+        <p>no tasks found</p>
+      )}
     </div>
   )
 }

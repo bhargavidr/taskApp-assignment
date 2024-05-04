@@ -1,12 +1,17 @@
 const Task = require('../models/Task');
 // const { validationResult } = require('express-validator')
-const createTask = require('../validations/createTaskValidation')
 const taskCtrl = {};
 
 // Function to get all tasks
 taskCtrl.getAllTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({ createdBy : req.user.id });
+        const tasks = await Task.find({
+            $or: [
+                { createdBy: { id: req.user.id, username: req.user.username } },
+                { "assignedTo": { $in: [req.user.id] } }
+            ]
+        });
+        
         res.status(200).json(tasks);
     } catch (err) {
         console.error(err);
@@ -32,21 +37,15 @@ taskCtrl.getSingleTask = async (req, res) => {
 // Function to create a new task
 taskCtrl.createTask = async (req, res) => {
     try {
-        const {error, value} = createTask.validate(req.body);
-        // console.log(error,'error object')
-        // console.log(value, 'value object')
-    if (error) {
-        return res.status(400).json(error.details);
-        //console.log(error)
-    }
-        const { title, description, dueDate, priority, status } = req.body;
+        const { title, description, dueDate, priority, status, assignedTo } = req.body;
         const newTask = new Task({
             title,
             description,
             dueDate: dueDate,
+            assignedTo,
             priority,
             status,
-            createdBy: req.user.id
+            createdBy: {id: req.user.id, username: req.user.username},
         });
         const task = await newTask.save();
         res.status(201).json(task);

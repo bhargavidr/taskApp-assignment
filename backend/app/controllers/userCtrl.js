@@ -61,11 +61,10 @@ userCtrl.getSingleUser = async (req, res) => {
         if (!user) {
                return res.status(404).json({ error: 'User not found' });
         }
-        // const comments = await Comment.find({taskId : id})
-        // return res.status(200).json({task, comments});
+        return res.status(200).json({user});
         
     } catch (err) {
-        console.error(err);
+        console.log(err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
