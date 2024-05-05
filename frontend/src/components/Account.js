@@ -7,7 +7,9 @@ function Account() {
   return (
     <div>
       <h3>Account</h3>
-      {user.account && <p>Welcome {user.account.username}</p> }
+      {user.account ? (<p>Welcome {user.account.username}</p>) : ( <p> Account not found </p>
+
+      ) }
     </div>
   );
 }

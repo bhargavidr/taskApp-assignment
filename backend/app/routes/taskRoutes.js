@@ -16,9 +16,9 @@ const authLayer = require('../middleware/authLayer')
 router.get('', taskCtrl.getAllTasks);
 router.post('', taskValidate.create, taskCtrl.createTask);
 //B - added get comments here so if we fetch one task, all comments under that task is also displayed
-router.get('/:id',isValidID,authLayer.task, taskCtrl.getSingleTask); 
+router.get('/:id',isValidID, taskCtrl.getSingleTask); 
 router.put('/:id',isValidID, authLayer.task, taskValidate.update, taskCtrl.updateTask);
-router.delete('/:id',isValidID, authLayer.task, taskCtrl.deleteTask);
+router.delete('/:id',isValidID, authLayer.deleteTask, taskCtrl.deleteTask);
 router.post('/assignUsers', taskCtrl.assignUsersToTask);
 
 

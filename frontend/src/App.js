@@ -4,6 +4,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Account from "./components/Account"; 
 import Tasks from "./components/Tasks"
+import TaskDetails from './components/TaskDetails'
 import { useAuth } from './context/AuthContext';
 
 
@@ -39,6 +40,7 @@ function App() {
         <Route path='/tasks' element={<Tasks />} />
         <Route path="/login" element={<Login />} />
         <Route path="/account" element={<Account />} /> 
+        <Route path="/task/:taskId" element={<TaskDetails />} />
       </Routes>
     </div>
   );

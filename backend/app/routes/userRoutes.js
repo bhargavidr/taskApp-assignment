@@ -17,6 +17,8 @@ router.post('/register', validateRegister, userCtrl.register);
 router.post('/login', validateLogin, userCtrl.login);
 router.get('/account',authMiddleware.authenticateUser, userCtrl.account);
 router.get('/:id', userCtrl.getSingleUser)
+router.get('',userCtrl.getAllUsers)
+
 
 
 module.exports = router;

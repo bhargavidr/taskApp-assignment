@@ -79,6 +79,16 @@ userCtrl.account = async (req, res) => {
     }
 };
 
+userCtrl.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+};
+
 // userCtrl.checkEmail = async (req, res) => {
 //     try {
 //         const { email } = req.query;

@@ -47,6 +47,7 @@ taskCtrl.createTask = async (req, res) => {
             status,
             createdBy: {id: req.user.id, username: req.user.username},
         });
+        console.log(newTask)
         const task = await newTask.save();
         res.status(201).json(task);
     } catch (err) {

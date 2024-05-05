@@ -19,7 +19,7 @@ const createTask = Joi.object({
     assignedTo:Joi.array().min(1),
 
     priority:Joi.string()
-                .valid('high','medium','low')
+                .valid('High','Medium','Low')
                 .trim(true),
 
     status: Joi.string()
@@ -29,15 +29,19 @@ const createTask = Joi.object({
 
 const customAsync = async(value) => {
     const task = await Task.findOne({title:value})
-    // console.log(task, 'repeated title object')
+    console.log(task, 'repeated title object')
+    
     if(task){
-        throw new Joi.ValidationError('Task Title', [{
-            message: 'Task title already exists',
-            type: 'custom',
-            path: ['string'],
-            value,
-        }]);
+        if(task.createdBy.id === req.user.id){
+            throw new Joi.ValidationError('Task Title', [{
+                message: 'Task title already exists',
+                type: 'custom',
+                path: ['string'],
+                value,
+            }]);
+        }
     }
+    
 }
 
 taskValidate.create = async (req,res,next) => {
@@ -63,7 +67,9 @@ const updateTask = Joi.object({
 
     priority:Joi.string().valid('high','medium','low').trim(true).insensitive(),
 
-    status: Joi.boolean().truthy('complete').falsy('incomplete')
+    status: Joi.boolean().valid('To Do','In Progress','Completed'),
+
+    assignedTo:Joi.array().min(1)
             
 })
 
