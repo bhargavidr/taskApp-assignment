@@ -12,6 +12,7 @@ const authLayer = require('../middleware/authLayer')
 //routes from comments - /api/comments
 // router.get('/:id',isValidID, authLayer.comment ,commentCtrl.getSingleComment);
 // router.get('?createdBy=id',commentCtrl.getSingleUserComment);
+router.get('/task/:taskId',commentCtrl.getCommentsByTask)
 router.post('',validateComment, commentCtrl.create)
 router.put('/:id',isValidID, authLayer.comment, commentCtrl.edit);
 router.delete('/:id', isValidID, authLayer.comment, commentCtrl.delete);

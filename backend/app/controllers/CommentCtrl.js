@@ -16,7 +16,7 @@ commentCtrl.create= async (req, res) => {
         const comment = new Comment({
             taskId,
             text,
-            createdBy: req.user._id,
+            createdBy: {id: req.user._id, username:req.user.username},
             createdAt: new Date() // Assuming the authenticated user is creating the comment
         });
 
@@ -33,7 +33,7 @@ commentCtrl.create= async (req, res) => {
 commentCtrl.getCommentsByTask = async (req, res) => {
     try {
         const taskId = req.params.taskId;
-        const comments = await Comment.find({ task: taskId });
+        const comments = await Comment.find({ taskId : taskId });
         res.json(comments);
         //can have req.comments = comments and passed in getSingleTask api (for later)
     } catch (error) {

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function TaskDetails() {
-    const { PORT } = useAuth(); 
+    const { user, PORT } = useAuth(); 
     const { taskId } = useParams();
     const [task, setTask] = useState(null);
     const [comments, setComments] = useState([]);
@@ -146,8 +146,13 @@ function TaskDetails() {
                             ) : (
                                 <>
                                     {comment.text} - {comment.createdBy.username}
-                                    <button onClick={() => { setEditingCommentId(comment._id); setEditedComment(comment.text); }}>Edit</button>
-                                    <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
+                                    {comment.createdBy.id == user.account._id && 
+                                    <>
+                                        <button onClick={() => { setEditingCommentId(comment._id); setEditedComment(comment.text); }}>Edit</button>
+                                        <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
+                                    </>
+                                    }
+                                    
                                 </>
                             )}
                         </li>

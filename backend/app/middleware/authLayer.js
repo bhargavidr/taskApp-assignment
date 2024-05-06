@@ -3,7 +3,7 @@ const Comment = require("../models/Comment")
 const AuthLayer = {}
 
 
-AuthLayer.deleteTask = async (req,res,next) => {
+AuthLayer.task = async (req,res,next) => {
     const task = await Task.findById(req.params.id)
         if(task.createdBy.id == req.user.id || task.assignedTo.includes[req.user.id]){
             next()
@@ -12,7 +12,7 @@ AuthLayer.deleteTask = async (req,res,next) => {
         }     
 }
 
-AuthLayer.task = async (req,res,next) => {
+AuthLayer.deleteTask = async (req,res,next) => {
     const task = await Task.findById(req.params.id)
         if(task.createdBy.id == req.user.id){
             next()
