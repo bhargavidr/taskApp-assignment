@@ -85,16 +85,15 @@ function Tasks() {
     return (
         <div>
             <h3>Tasks</h3>
-            <TaskCreate users = {users} 
-                        tasks = {tasks} setTasks= {setTasks}
-                        newTask = {newTask} setNewTask={setNewTask}   />
-
+            
             {editingTask ? (
                 <TaskEdit users = {users} 
                         editingTask = {editingTask} setEditingTask={setEditingTask}
                         tasks = {tasks} setTasks= {setTasks}/>
             ) : null}
+            
             {tasks ? (
+                <>
                 <table>
                     <thead>
                         <tr>
@@ -124,6 +123,11 @@ function Tasks() {
                         ))}
                     </tbody>
                 </table>
+                <br /><br />
+                <TaskCreate users = {users} 
+                tasks = {tasks} setTasks= {setTasks}
+                newTask = {newTask} setNewTask={setNewTask}   />
+                </>
             ) : (
                 <p>No tasks found</p>
             )}

@@ -1,8 +1,15 @@
 import axios from 'axios';
+import {useState} from 'react'
 import { useAuth } from '../context/AuthContext';
+import MultiSelect from 'multiselect-react-dropdown'
+
+// import './assignedToCheckbox.css'
+
 
 export default function TaskCreate(props){
-    const {PORT} = useAuth()
+    const {PORT} = useAuth() 
+    
+
     const {users, newTask, setNewTask, setTasks, tasks} = props
 
 
@@ -21,7 +28,8 @@ export default function TaskCreate(props){
                     description: '',
                     assignedTo: [],
                     priority: '',
-                    dueDate: ''
+                    dueDate: '',
+                    status: ''
                 });
                 
             } else {
@@ -32,8 +40,8 @@ export default function TaskCreate(props){
         }
     };
 
-    const handleAssignTask = (userId) => {
-        setNewTask({ ...newTask, assignedTo: [userId] });
+    const handleAssignTask = (usersList) => {
+        setNewTask({ ...newTask, assignedTo: usersList });
     };
 
     
@@ -41,20 +49,33 @@ export default function TaskCreate(props){
         <div>
                 <h4>Create Task</h4>
                 <input type="text" placeholder="Title" value={newTask.title} onChange={(e) => setNewTask({ ...newTask, title: e.target.value })} />
-                <input type="text" placeholder="Description" value={newTask.description} onChange={(e) => setNewTask({ ...newTask, description: e.target.value })} />
+                <br /> 
+                <textarea placeholder="Description" value={newTask.description} onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}/>
+                <br />
                 <select value={newTask.priority} onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}>
                     <option value="">Select Priority</option>
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
                     <option value="High">High</option>
                 </select>
-                <input type="date" placeholder="Due Date" value={newTask.dueDate} onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })} />
-                <select value={newTask.assignedTo} onChange={(e) => handleAssignTask(e.target.value)}>
-                    <option value="">Assign To</option>
-                    {users.map(user => (
-                        <option key={user._id} value={user._id}>{user.username}</option>
-                    ))}
+                <br />
+                <select value={newTask.status} onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}>
+                    <option value="">Select Status</option>
+                    <option value="To Do">To Do</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Complete</option>
                 </select>
+                <br />
+                <input type="date" placeholder="Due Date" value={newTask.dueDate} onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })} />
+                <MultiSelect
+                    showCheckbox
+                    options={users.map(user => ({ key: user._id, value: user.username }))}
+                    onSelect={(selectedList) => handleAssignTask(selectedList.map(item => item.key))}
+                    onRemove={(selectedList) => handleAssignTask(selectedList.map(item => item.key))}
+                    displayValue="value"
+                    placeholder="Assign To"
+                    style={{}}
+                />
 
                 <button onClick={handleCreateTask}>Create Task</button>
             </div>

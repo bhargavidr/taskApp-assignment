@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import MultiSelect from 'multiselect-react-dropdown';
 
 export default function TaskEdit(props) {
-    const { PORT } = useAuth();
+    const { user, PORT } = useAuth();
     const {users, setEditingTask, editingTask, setTasks, tasks} = props
 
     const handleEditTask = async (e) => {
@@ -19,7 +20,7 @@ export default function TaskEdit(props) {
             });
     
             if (response.data) {
-                console.log(response.data)
+                // console.log(response.data)
                 const updatedTasks = tasks.map((task) => {
                     if (task._id === _id) {
                         return response.data;
@@ -36,6 +37,15 @@ export default function TaskEdit(props) {
         }
 
     };
+
+    const handleAssignTask = (usersList) => {
+        setEditingTask({ ...editingTask, assignedTo: usersList });
+    };
+
+    const preSelectedUsers = editingTask.assignedTo.map(ele => {
+        let user = users.find(user => user._id == ele)
+        return {key: ele, value: user.username}
+    })
     
 
     return(
@@ -43,22 +53,39 @@ export default function TaskEdit(props) {
                     <h4>Edit Task</h4>
                     
                     <input type="text" placeholder="Title" value={editingTask.title} onChange={(e) => setEditingTask({ ...editingTask, title: e.target.value })} />
-                    <input type="text" placeholder="Description" value={editingTask.description} onChange={(e) => setEditingTask({ ...editingTask, description: e.target.value })} />
+                    <br />
+                    <textarea placeholder="Description" value={editingTask.description} onChange={(e) => setEditingTask({ ...editingTask, description: e.target.value })} />
+                    <br />
                     <select value={editingTask.priority} onChange={(e) => setEditingTask({ ...editingTask, priority: e.target.value })}>
                         <option value="">Select Priority</option>
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
                     </select>
-                    <input type="date" placeholder="Due Date" value={editingTask.dueDate} onChange={(e) => setEditingTask({ ...editingTask, dueDate: e.target.value })} />
-                    <select value={editingTask.assignedTo} onChange={(e) => setEditingTask({ ...editingTask, assignedTo: e.target.value })}>
-                        <option value="">Assign To</option>
-                        {users.map(user => (
-                            <option key={user._id} value={user._id}>{user.username}</option>
-                        ))}
-                    </select>
-                    <button onClick={(e) => handleEditTask()}>Save</button>
-                    
+                    <br />
+                    <select value={editingTask.status} onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value })}>
+                    <option value="">Select Status</option>
+                    <option value="To Do">To Do</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Complete</option>
+                </select>
+                <br />
+                <input type="date" placeholder="Due Date" value={editingTask.dueDate} onChange={(e) => setEditingTask({ ...editingTask, dueDate: e.target.value })} />
+                {editingTask.createdBy.id == user.account._id && (
+                        <MultiSelect
+                        showCheckbox
+                        options={users.map(ele => ({ key: ele._id, value: ele.username }))}
+                        onSelect={(selectedUsers) => handleAssignTask(selectedUsers.map(item => item.key))}
+                        onRemove={(selectedUsers) => handleAssignTask(selectedUsers.map(item => item.key))}
+                        displayValue="value"
+                        placeholder="Assign To"
+                        selectedValues={preSelectedUsers}
+                        style={{}}
+                    />
+                )}
+                <button onClick={(e) => handleEditTask()}>Save</button>
+                <br /> <br />
                 </div>
+                
     )
 }

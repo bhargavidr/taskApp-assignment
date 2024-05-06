@@ -5,7 +5,8 @@ const AuthLayer = {}
 
 AuthLayer.task = async (req,res,next) => {
     const task = await Task.findById(req.params.id)
-        if(task.createdBy.id == req.user.id || task.assignedTo.includes[req.user.id]){
+    // console.log(task, 'task')
+        if(task.createdBy.id == req.user.id || task.assignedTo.includes(req.user.id)){
             next()
         }else{
             return res.status(403).json({Unauthorized:'You cannot access this page'})

@@ -6,6 +6,7 @@ import Account from "./components/Account";
 import Tasks from "./components/Tasks"
 import TaskDetails from './components/TaskDetails'
 import { useAuth } from './context/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 
 
 
@@ -23,13 +24,14 @@ function App() {
         </>
       ) : (
         <>
-       
+        <PrivateRoute>
           <Link to="/tasks">Tasks</Link> |
           <Link to="/account">Account</Link> |
           <Link to="/" onClick={() => {
             localStorage.removeItem('token');
             dispatch('LOGOUT');
           }}> Logout </Link> |
+        </PrivateRoute>
          
         </>
       )}
