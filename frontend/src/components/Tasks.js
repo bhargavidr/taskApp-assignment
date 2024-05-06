@@ -4,10 +4,13 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 import TaskEdit from './TaskEdit';
+import TaskCreate from './TaskCreate';
+
 
 function Tasks() {
     const { user, PORT } = useAuth();
     const [tasks, setTasks] = useState(null);
+
     const [newTask, setNewTask] = useState({
         title: '',
         description: '',
@@ -15,7 +18,9 @@ function Tasks() {
         priority: '',
         dueDate: ''
     });
+
     const [editingTask, setEditingTask] = useState(null);
+
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -54,32 +59,6 @@ function Tasks() {
         fetchData();
     }, [PORT]);
 
-    const handleCreateTask = async () => {
-        try {
-            const response = await axios.post(`http://localhost:${PORT}/api/tasks`, newTask, {
-                headers: {
-                    Authorization: localStorage.getItem('token')
-                }
-            });
-
-            if (response.data) {
-                setTasks([...tasks, response.data]);
-                setNewTask({
-                    title: '',
-                    description: '',
-                    assignedTo: [],
-                    priority: '',
-                    dueDate: ''
-                });
-                
-            } else {
-                console.log('Error creating task');
-            }
-        } catch (error) {
-            console.error("Error creating task:", error);
-        }
-    };
-
     
 
     const handleDeleteTask = async (taskId) => {
@@ -101,33 +80,15 @@ function Tasks() {
         }
     };
 
-    const handleAssignTask = (userId) => {
-        setNewTask({ ...newTask, assignedTo: [userId] });
-    };
+    
 
     return (
         <div>
             <h3>Tasks</h3>
-            <div>
-                <h4>Create Task</h4>
-                <input type="text" placeholder="Title" value={newTask.title} onChange={(e) => setNewTask({ ...newTask, title: e.target.value })} />
-                <input type="text" placeholder="Description" value={newTask.description} onChange={(e) => setNewTask({ ...newTask, description: e.target.value })} />
-                <select value={newTask.priority} onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}>
-                    <option value="">Select Priority</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-                <input type="date" placeholder="Due Date" value={newTask.dueDate} onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })} />
-                <select value={newTask.assignedTo} onChange={(e) => handleAssignTask(e.target.value)}>
-                    <option value="">Assign To</option>
-                    {users.map(user => (
-                        <option key={user._id} value={user._id}>{user.username}</option>
-                    ))}
-                </select>
+            <TaskCreate users = {users} 
+                        tasks = {tasks} setTasks= {setTasks}
+                        newTask = {newTask} setNewTask={setNewTask}   />
 
-                <button onClick={handleCreateTask}>Create Task</button>
-            </div>
             {editingTask ? (
                 <TaskEdit users = {users} 
                         editingTask = {editingTask} setEditingTask={setEditingTask}
