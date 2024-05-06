@@ -8,7 +8,7 @@ import TaskCreate from './TaskCreate';
 
 
 function Tasks() {
-    const { user, PORT } = useAuth();
+    const { users, user, PORT } = useAuth();
     const [tasks, setTasks] = useState(null);
 
     const [newTask, setNewTask] = useState({
@@ -21,7 +21,7 @@ function Tasks() {
 
     const [editingTask, setEditingTask] = useState(null);
 
-    const [users, setUsers] = useState([]);
+    // const [users, setUsers] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -40,17 +40,17 @@ function Tasks() {
                 }
 
                 // Fetch users for assignment
-                const usersResponse = await axios.get(`http://localhost:${PORT}/api/users`, {
-                    headers: {
-                        Authorization: localStorage.getItem('token')
-                    }
-                });
+                // const usersResponse = await axios.get(`http://localhost:${PORT}/api/users`, {
+                //     headers: {
+                //         Authorization: localStorage.getItem('token')
+                //     }
+                // });
 
-                if (usersResponse) {
-                    setUsers(usersResponse.data);
-                } else {
-                    console.log('Error fetching users');
-                }
+                // if (usersResponse) {
+                //     setUsers(usersResponse.data);
+                // } else {
+                //     console.log('Error fetching users');
+                // }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -112,7 +112,7 @@ function Tasks() {
                                 <td>{task.status}</td>
                                 <td>{task.priority}</td>
                                 <td>
-                                    <Link to={`/task/${task._id}`}>View</Link>
+                                    <Link to={`/task/${task._id}`} users={users}>View</Link>
 
                                     <button onClick={() => setEditingTask(task)}>Edit</button>
 

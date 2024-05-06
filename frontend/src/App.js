@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 
 
 
+
 function App() {
   const { user, dispatch } = useAuth();
 
@@ -24,26 +25,28 @@ function App() {
         </>
       ) : (
         <>
-        <PrivateRoute>
+        
           <Link to="/tasks">Tasks</Link> |
           <Link to="/account">Account</Link> |
           <Link to="/" onClick={() => {
             localStorage.removeItem('token');
             dispatch('LOGOUT');
           }}> Logout </Link> |
-        </PrivateRoute>
-         
+                
         </>
       )}
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
-        <Route path='/tasks' element={<Tasks />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/account" element={<Account />} /> 
-        <Route path="/task/:taskId" element={<TaskDetails />} />
+         
+          <Route path="/account" element={<Account />} /> 
+          <Route path='/tasks' element={<Tasks />} />
+          <Route path="/task/:taskId" element={<TaskDetails />} />  
+              
       </Routes>
+
     </div>
   );
 }

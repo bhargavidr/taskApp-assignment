@@ -3,14 +3,15 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-function TaskDetails() {
-    const { user, PORT } = useAuth(); 
+function TaskDetails(props) {
+    const { users, user, PORT } = useAuth(); 
     const { taskId } = useParams();
     const [task, setTask] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editedComment, setEditedComment] = useState('');
+
 
     useEffect(() => {
         async function fetchTaskDetails() {
@@ -22,7 +23,11 @@ function TaskDetails() {
                 });
 
                 if (taskResponse) {
-                    setTask(taskResponse.data);
+                const assignedUsernames = users.filter(ele => taskResponse.data.assignedTo.includes(ele._id))
+                                                .map(ele => ele.username);
+                taskResponse.data.assignedUsernames = assignedUsernames
+                setTask(taskResponse.data)
+                // console.log(taskResponse.data)
                 } else {
                     console.log('error fetching task details');
                 }
@@ -125,15 +130,25 @@ function TaskDetails() {
 
     return (
         <div>
-            <h3>Task Details</h3>
+            <h2>Task Details</h2>
             {task && (
                 <div>
-                    <p>Title: {task.title}</p>
-                    <p>Description: {task.description}</p>
-                    {/* Display other task details */}
+                    <p><b>Title:</b> {task.title}</p>
+                    <p><b>Description:</b> {task.description}</p>
+                    <p><b>Due Date: </b>{task.dueDate}</p>
+                    <p><b>Priority: </b>{task.priority}</p>
+                    <p><b>Assigned to: </b></p><ul>
+                        {task.assignedUsernames.length > 0 && task.assignedUsernames.map((ele, i) => {
+                            return <li>{ele}</li>
+                        }
+                            
+                        )}
+                    </ul>  
+                    <br />  
                 </div>
+                
             )}
-            <h4>Comments</h4>
+            <h3>Comments</h3>
             {comments.length > 0 ? (
                 <ul>
                     {comments.map((comment) => (
