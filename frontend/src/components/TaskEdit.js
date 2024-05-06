@@ -3,8 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import MultiSelect from 'multiselect-react-dropdown';
 
 export default function TaskEdit(props) {
-    const { user, PORT } = useAuth();
-    const {users, setEditingTask, editingTask, setTasks, tasks} = props
+    const { users, user, PORT } = useAuth();
+    const { setEditingTask, editingTask, setTasks, tasks} = props
 
     const handleEditTask = async (e) => {
 

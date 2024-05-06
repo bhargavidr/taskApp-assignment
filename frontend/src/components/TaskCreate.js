@@ -7,10 +7,10 @@ import MultiSelect from 'multiselect-react-dropdown'
 
 
 export default function TaskCreate(props){
-    const {PORT} = useAuth() 
+    const {users, PORT} = useAuth() 
     
 
-    const {users, newTask, setNewTask, setTasks, tasks} = props
+    const { newTask, setNewTask, setTasks, tasks} = props
 
 
     const handleCreateTask = async () => {

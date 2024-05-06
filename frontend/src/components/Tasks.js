@@ -87,7 +87,7 @@ function Tasks() {
             <h3>Tasks</h3>
             
             {editingTask ? (
-                <TaskEdit users = {users} 
+                <TaskEdit  
                         editingTask = {editingTask} setEditingTask={setEditingTask}
                         tasks = {tasks} setTasks= {setTasks}/>
             ) : null}
@@ -124,7 +124,7 @@ function Tasks() {
                     </tbody>
                 </table>
                 <br /><br />
-                <TaskCreate users = {users} 
+                <TaskCreate  
                 tasks = {tasks} setTasks= {setTasks}
                 newTask = {newTask} setNewTask={setNewTask}   />
                 </>
