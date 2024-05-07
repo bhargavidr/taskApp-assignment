@@ -61,8 +61,7 @@ function Account() {
             setTimeout(() => setSaveSuccess(false), 2000); 
         } catch (error) {
             console.error('Error updating user:', error);
-            // Handle error, such as showing an error message to the user
-        }
+         }
     };
     
 

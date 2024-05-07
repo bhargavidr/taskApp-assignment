@@ -11,7 +11,8 @@ export default function TaskCreate(props){
     
 
     const { newTask, setNewTask, setTasks, tasks} = props
-
+    const statuses = ['To do','In Progress','Completed']
+    const priorities = ['Low','Medium','High']
 
     const handleCreateTask = async () => {
         try {
@@ -52,19 +53,30 @@ export default function TaskCreate(props){
                 <br /> 
                 <textarea placeholder="Description" value={newTask.description} onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}/>
                 <br />
-                <select value={newTask.priority} onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}>
-                    <option value="">Select Priority</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
+                {priorities.map((priority) => (
+                            <label key={priority}>
+                                <input
+                                type="radio"
+                                name="priority" // Group the radio buttons with the same name
+                                value={priority}
+                                checked={newTask.priority === priority} // Set checked based on editingTask.priority
+                                onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
+                                />
+                                {priority}
+                            </label>
+                ))}
                 <br />
-                <select value={newTask.status} onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}>
-                    <option value="">Select Status</option>
-                    <option value="To Do">To Do</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                </select>
+                {statuses.map((status) => (
+                        <label key={status}>
+                            <input
+                            type="radio"
+                            name="status" // Group the radio buttons with the same name
+                            value={status}
+                            checked={newTask.status === status} // Set checked based on newTask.status
+                            onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}
+                            /> {status}
+                        </label>
+                ))}
                 <br />
                 <input type="date" placeholder="Due Date" value={newTask.dueDate} onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })} />
                 <MultiSelect

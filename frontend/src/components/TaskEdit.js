@@ -6,6 +6,11 @@ export default function TaskEdit(props) {
     const { users, user, PORT } = useAuth();
     const { setEditingTask, editingTask, setTasks, tasks} = props
 
+    //for radio buttons
+    const statuses = ['To do','In Progress','Completed']
+    const priorities = ["Low", "Medium", "High"];
+
+
     const handleEditTask = async (e) => {
 
         try {
@@ -57,19 +62,30 @@ export default function TaskEdit(props) {
                     <br />
                     <textarea placeholder="Description" value={editingTask.description} onChange={(e) => setEditingTask({ ...editingTask, description: e.target.value })} />
                     <br />
-                    <select value={editingTask.priority} onChange={(e) => setEditingTask({ ...editingTask, priority: e.target.value })}>
-                        <option value="">Select Priority</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
+                    {priorities.map((priority) => (
+                            <label key={priority}>
+                                <input
+                                type="radio"
+                                name="priority" // Group the radio buttons with the same name
+                                value={priority}
+                                checked={editingTask.priority === priority} // Set checked based on editingTask.priority
+                                onChange={(e) => setEditingTask({ ...editingTask, priority: e.target.value })}
+                                />
+                                {priority}
+                            </label>
+                    ))}
                     <br />
-                    <select value={editingTask.status} onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value })}>
-                    <option value="">Select Status</option>
-                    <option value="To Do">To Do</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Complete</option>
-                </select>
+                    {statuses.map((status) => (
+                        <label key={status}>
+                            <input
+                            type="radio"
+                            name="status" // Group the radio buttons with the same name
+                            value={status}
+                            checked={editingTask.status === status} // Set checked based on newTask.status
+                            onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value })}
+                            /> {status}
+                        </label>
+                ))}
                 <br />
                 <input type="date" placeholder="Due Date" value={editingTask.dueDate} onChange={(e) => setEditingTask({ ...editingTask, dueDate: e.target.value })} />
                 {editingTask.createdBy.id == user.account._id && (

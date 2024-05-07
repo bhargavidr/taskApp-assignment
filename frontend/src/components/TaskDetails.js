@@ -143,7 +143,7 @@ function TaskDetails(props) {
                     <p><b>Created By: </b>{task.createdBy.username}</p>
                     <p><b>Assigned to: </b></p><ul>
                         {task.assignedUsernames.length > 0 && task.assignedUsernames.map((ele, i) => {
-                            return <li>{ele}</li>
+                            return <li key={i} value={ele}>{ele}</li>
                         }
                             
                         )}

@@ -75,7 +75,7 @@ function Tasks() {
             
             {tasks && tasks.length > 0 ? (
                 <>
-                    <table>
+                    <table cellSpacing="14">
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -87,7 +87,7 @@ function Tasks() {
                         </thead>
                         <tbody>
                             {tasks.map((task) => (
-                                <tr key={task._id}>
+                                <tr key={task._id} align="center">
                                     <td>{task.title}</td>
                                     <td>{task.createdBy && task.createdBy.username}</td>
                                     <td>{task.status}</td>
@@ -95,7 +95,7 @@ function Tasks() {
                                     <td>
                                         <Link to={`/task/${task._id}`} users={users}>View</Link>
                                         <button onClick={() => setEditingTask(task)}>Edit</button>
-                                        {task.createdBy && task.createdBy.id === user.account._id && 
+                                        {task?.createdBy && task?.createdBy?.id === user.account?._id && 
                                             <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
                                         }
                                     </td>
