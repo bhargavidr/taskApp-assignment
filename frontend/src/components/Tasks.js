@@ -6,11 +6,9 @@ import { Link } from 'react-router-dom';
 import TaskEdit from './TaskEdit';
 import TaskCreate from './TaskCreate';
 
-
 function Tasks() {
     const { users, user, PORT } = useAuth();
     const [tasks, setTasks] = useState(null);
-
     const [newTask, setNewTask] = useState({
         title: '',
         description: '',
@@ -18,10 +16,7 @@ function Tasks() {
         priority: '',
         dueDate: ''
     });
-
     const [editingTask, setEditingTask] = useState(null);
-
-    // const [users, setUsers] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -33,24 +28,11 @@ function Tasks() {
                     }
                 });
 
-                if (taskResponse) {
+                if (taskResponse && taskResponse.data) {
                     setTasks(taskResponse.data);
                 } else {
-                    console.log('Error fetching tasks');
+                    console.log('No tasks found');
                 }
-
-                // Fetch users for assignment
-                // const usersResponse = await axios.get(`http://localhost:${PORT}/api/users`, {
-                //     headers: {
-                //         Authorization: localStorage.getItem('token')
-                //     }
-                // });
-
-                // if (usersResponse) {
-                //     setUsers(usersResponse.data);
-                // } else {
-                //     console.log('Error fetching users');
-                // }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -58,8 +40,6 @@ function Tasks() {
 
         fetchData();
     }, [PORT]);
-
-    
 
     const handleDeleteTask = async (taskId) => {
         try {
@@ -80,57 +60,60 @@ function Tasks() {
         }
     };
 
-    
-
     return (
         <div>
             <h3>Tasks</h3>
             
             {editingTask ? (
                 <TaskEdit  
-                        editingTask = {editingTask} setEditingTask={setEditingTask}
-                        tasks = {tasks} setTasks= {setTasks}/>
+                    editingTask={editingTask} 
+                    setEditingTask={setEditingTask}
+                    tasks={tasks} 
+                    setTasks={setTasks}
+                />
             ) : null}
             
-            {tasks ? (
+            {tasks && tasks.length > 0 ? (
                 <>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Created By</th>
-                            <th>Status</th>
-                            <th>Priority</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tasks.map((task) => (
-                            <tr key={task._id}>
-                                <td>{task.title}</td>
-                                <td>{task.createdBy.username}</td>
-                                <td>{task.status}</td>
-                                <td>{task.priority}</td>
-                                <td>
-                                    <Link to={`/task/${task._id}`} users={users}>View</Link>
-
-                                    <button onClick={() => setEditingTask(task)}>Edit</button>
-
-                                    {task.createdBy.id == user.account._id && 
-                                    <button onClick={() => handleDeleteTask(task._id)}>Delete</button>}
-                                </td>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Created By</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <br /><br />
-                <TaskCreate  
-                tasks = {tasks} setTasks= {setTasks}
-                newTask = {newTask} setNewTask={setNewTask}   />
+                        </thead>
+                        <tbody>
+                            {tasks.map((task) => (
+                                <tr key={task._id}>
+                                    <td>{task.title}</td>
+                                    <td>{task.createdBy && task.createdBy.username}</td>
+                                    <td>{task.status}</td>
+                                    <td>{task.priority}</td>
+                                    <td>
+                                        <Link to={`/task/${task._id}`} users={users}>View</Link>
+                                        <button onClick={() => setEditingTask(task)}>Edit</button>
+                                        {task.createdBy && task.createdBy.id === user.account._id && 
+                                            <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
+                                        }
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <br /><br />
                 </>
             ) : (
                 <p>No tasks found</p>
             )}
+            <TaskCreate  
+                tasks={tasks} 
+                setTasks={setTasks}
+                newTask={newTask} 
+                setNewTask={setNewTask}   
+            />
         </div>
     );
 }

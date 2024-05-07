@@ -16,8 +16,12 @@ const isValidID = require('../validations/idValidation')
 router.post('/register', validateRegister, userCtrl.register);
 router.post('/login', validateLogin, userCtrl.login);
 router.get('/account',authMiddleware.authenticateUser, userCtrl.account);
-router.get('/:id', userCtrl.getSingleUser)
+router.get('/:id', isValidID, userCtrl.getSingleUser)
 router.get('',userCtrl.getAllUsers)
+router.put('/:id', isValidID, authMiddleware.authenticateUser, userCtrl.updateUser);
+router.delete('', authMiddleware.authenticateUser, userCtrl.deleteUser);
+
+
 
 
 

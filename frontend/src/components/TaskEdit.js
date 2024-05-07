@@ -43,9 +43,10 @@ export default function TaskEdit(props) {
     };
 
     const preSelectedUsers = editingTask.assignedTo.map(ele => {
-        let user = users.find(user => user._id == ele)
-        return {key: ele, value: user.username}
-    })
+        let user = users.find(user => user._id == ele);
+        return user ? { key: ele, value: user.username } : null;
+    }).filter(Boolean);
+    
     
 
     return(

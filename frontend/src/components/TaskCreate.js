@@ -63,7 +63,7 @@ export default function TaskCreate(props){
                     <option value="">Select Status</option>
                     <option value="To Do">To Do</option>
                     <option value="In Progress">In Progress</option>
-                    <option value="Completed">Complete</option>
+                    <option value="Completed">Completed</option>
                 </select>
                 <br />
                 <input type="date" placeholder="Due Date" value={newTask.dueDate} onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })} />

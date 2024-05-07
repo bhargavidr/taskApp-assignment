@@ -22,11 +22,10 @@ taskCtrl.getAllTasks = async (req, res) => {
 taskCtrl.getSingleTask = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id);
-        // if(task.createdBy == req.user.id)
         if (!task) {
             return res.status(404).json({ error: 'Task not found' });
         }
-        res.status(200).json(task); //B - do res.json(task, req.comments)
+        res.status(200).json(task); 
     } catch (err) {
         // console.error(err);
         res.status(500).json({ error: 'Something went wrong' });
@@ -47,7 +46,7 @@ taskCtrl.createTask = async (req, res) => {
             status,
             createdBy: {id: req.user.id, username: req.user.username},
         });
-        console.log(newTask)
+        // console.log(newTask)
         const task = await newTask.save();
         res.status(201).json(task);
     } catch (err) {

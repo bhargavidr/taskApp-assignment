@@ -23,13 +23,13 @@ const createTask = Joi.object({
                 .trim(true),
 
     status: Joi.string()
-                .valid('To do','In Progress','Completed').trim(true)
+                .valid('To Do','In Progress','Completed').trim(true)
     
 })
 
 const customAsync = async(value) => {
     const task = await Task.findOne({title:value})
-    console.log(task, 'repeated title object')
+    // console.log(task, 'repeated title object')
     
     if(task){
         if(task.createdBy.id === req.user.id){

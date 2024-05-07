@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
 
-
 // Create context
 const AuthContext = createContext();
 
@@ -30,7 +29,8 @@ export const AuthProvider = ({ children }) => {
     const PORT = 5000
 
     useEffect(()=> {
-            async function getUsers(){
+        async function getUsers(){
+            try {
                 const usersResponse = await axios.get(`http://localhost:${PORT}/api/users`, {
                     headers: {
                         Authorization: localStorage.getItem('token')
@@ -42,15 +42,22 @@ export const AuthProvider = ({ children }) => {
                 } else {
                     console.log('Error fetching users');
                 }
+            } catch (error) {
+                console.error('Error fetching users:', error);
             }
-            getUsers()
+        }
+        getUsers()
 
-    },[])
+    },[user.account])
 
-  return <AuthContext.Provider value={{PORT, user, dispatchAuth, users}}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={{ PORT, user, dispatchAuth, users }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 // Custom hook to use auth context
 export const useAuth = () => {
-  return useContext(AuthContext);
+    return useContext(AuthContext);
 };

@@ -48,7 +48,7 @@ export default function Login() {
                     }
                 });
                 dispatchAuth({type:'LOGIN', payload:userResponse.data});
-                // console.log(userResponse.data)
+                // console.log(userResponse.data, 'userResponse')
                 navigate('/');
             } catch (err) {
                 setForm({ ...form, serverErrors: err.response.data.error, clientErrors: {} });

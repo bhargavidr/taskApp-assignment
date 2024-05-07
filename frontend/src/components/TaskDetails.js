@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Await, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function TaskDetails(props) {
@@ -23,8 +23,11 @@ function TaskDetails(props) {
                 });
 
                 if (taskResponse) {
-                const assignedUsernames = users.filter(ele => taskResponse.data.assignedTo.includes(ele._id))
-                                                .map(ele => ele.username);
+
+                const assignedUserIds = taskResponse.data.assignedTo;
+
+                const assignedUsernames = users.filter(ele => assignedUserIds.includes(ele._id))
+                                                .map(ele =>  ele.username);
                 taskResponse.data.assignedUsernames = assignedUsernames
                 setTask(taskResponse.data)
                 // console.log(taskResponse.data)
@@ -56,7 +59,7 @@ function TaskDetails(props) {
 
         fetchTaskDetails();
         fetchComments();
-    }, [PORT, taskId]);
+    }, [PORT, taskId, users]);
 
     const handleAddComment = async () => {
         try {
@@ -137,6 +140,7 @@ function TaskDetails(props) {
                     <p><b>Description:</b> {task.description}</p>
                     <p><b>Due Date: </b>{task.dueDate}</p>
                     <p><b>Priority: </b>{task.priority}</p>
+                    <p><b>Created By: </b>{task.createdBy.username}</p>
                     <p><b>Assigned to: </b></p><ul>
                         {task.assignedUsernames.length > 0 && task.assignedUsernames.map((ele, i) => {
                             return <li>{ele}</li>
@@ -161,7 +165,7 @@ function TaskDetails(props) {
                             ) : (
                                 <>
                                     {comment.text} - {comment.createdBy.username}
-                                    {comment.createdBy.id == user.account._id && 
+                                    {comment.createdBy && comment.createdBy.id == user.account._id && 
                                     <>
                                         <button onClick={() => { setEditingCommentId(comment._id); setEditedComment(comment.text); }}>Edit</button>
                                         <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>

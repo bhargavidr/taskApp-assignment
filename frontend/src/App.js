@@ -25,14 +25,14 @@ function App() {
         </>
       ) : (
         <>
-        
+          <PrivateRoute>
           <Link to="/tasks">Tasks</Link> |
           <Link to="/account">Account</Link> |
           <Link to="/" onClick={() => {
             localStorage.removeItem('token');
             dispatch('LOGOUT');
           }}> Logout </Link> |
-                
+            </PrivateRoute>
         </>
       )}
 
