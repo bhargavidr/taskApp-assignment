@@ -10,7 +10,10 @@ const reducer = (state, action) => {
             return {...state, isLoggedIn: true, account: action.payload}
         }
         case 'LOGOUT' : {
-            return {...state, isLoggedIn: false, account: null, profile: null } 
+            return {...state, isLoggedIn: false, account: null, tasks: null } 
+        }
+        case 'TASK' : {
+            return {...state, tasks: action.payload}
         }
         default: {
             return {...state} 
@@ -22,7 +25,8 @@ const reducer = (state, action) => {
 export const AuthProvider = ({ children }) => {
     const [user, dispatchAuth] = useReducer(reducer, {
         isLoggedIn: false, 
-        account: null
+        account: null, 
+        tasks:null
     })
 
     const [users, setUsers] = useState([]);

@@ -6,11 +6,16 @@ import MultiSelect from 'multiselect-react-dropdown'
 // import './assignedToCheckbox.css'
 
 
-export default function TaskCreate(props){
-    const {users, PORT} = useAuth() 
-    
+export default function TaskCreate(){
+    const {users, PORT, dispatchAuth} = useAuth() 
 
-    const { newTask, setNewTask, setTasks, tasks} = props
+    const [newTask, setNewTask] = useState({
+        title: '',
+        description: '',
+        assignedTo: '',
+        priority: '',
+        dueDate: ''
+    });
     const statuses = ['To do','In Progress','Completed']
     const priorities = ['Low','Medium','High']
 
@@ -23,7 +28,7 @@ export default function TaskCreate(props){
             });
 
             if (response.data) {
-                setTasks([...tasks, response.data]);
+                dispatchAuth({type:'TASK', payload: response.data})
                 setNewTask({
                     title: '',
                     description: '',
@@ -32,7 +37,7 @@ export default function TaskCreate(props){
                     dueDate: '',
                     status: ''
                 });
-                
+
             } else {
                 console.log('Error creating task');
             }

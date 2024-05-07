@@ -7,15 +7,8 @@ import TaskEdit from './TaskEdit';
 import TaskCreate from './TaskCreate';
 
 function Tasks() {
-    const { users, user, PORT } = useAuth();
-    const [tasks, setTasks] = useState(null);
-    const [newTask, setNewTask] = useState({
-        title: '',
-        description: '',
-        assignedTo: '',
-        priority: '',
-        dueDate: ''
-    });
+    const { users, user, PORT, dispatchAuth } = useAuth();
+    
     const [editingTask, setEditingTask] = useState(null);
 
     useEffect(() => {
@@ -29,7 +22,8 @@ function Tasks() {
                 });
 
                 if (taskResponse && taskResponse.data) {
-                    setTasks(taskResponse.data);
+                    // setTasks(taskResponse.data);
+                    dispatchAuth({type:'TASK', payload: taskResponse.data})
                 } else {
                     console.log('No tasks found');
                 }
@@ -39,7 +33,7 @@ function Tasks() {
         }
 
         fetchData();
-    }, [PORT]);
+    }, [PORT, user]);
 
     const handleDeleteTask = async (taskId) => {
         try {
@@ -50,8 +44,9 @@ function Tasks() {
             });
 
             if (response.data) {
-                const updatedTasks = tasks.filter(task => task._id !== taskId);
-                setTasks(updatedTasks);
+                const updatedTasks = user.tasks.filter(task => task._id !== taskId);
+                // setTasks(updatedTasks);
+                dispatchAuth({type:'TASK', payload: updatedTasks})
             } else {
                 console.log('Error deleting task');
             }
@@ -68,12 +63,11 @@ function Tasks() {
                 <TaskEdit  
                     editingTask={editingTask} 
                     setEditingTask={setEditingTask}
-                    tasks={tasks} 
-                    setTasks={setTasks}
+                    tasks={user.tasks} 
                 />
             ) : null}
             
-            {tasks && tasks.length > 0 ? (
+            {user.tasks && user.tasks.length > 0 ? (
                 <>
                     <table cellSpacing="14">
                         <thead>
@@ -86,7 +80,7 @@ function Tasks() {
                             </tr>
                         </thead>
                         <tbody>
-                            {tasks.map((task) => (
+                            {user.tasks && user.tasks.map((task) => (
                                 <tr key={task._id} align="center">
                                     <td>{task.title}</td>
                                     <td>{task.createdBy && task.createdBy.username}</td>
@@ -95,7 +89,7 @@ function Tasks() {
                                     <td>
                                         <Link to={`/task/${task._id}`} users={users}>View</Link>
                                         <button onClick={() => setEditingTask(task)}>Edit</button>
-                                        {task?.createdBy && task?.createdBy?.id === user.account?._id && 
+                                        {task.createdBy && task.createdBy.id === user.account._id && 
                                             <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
                                         }
                                     </td>
@@ -108,12 +102,7 @@ function Tasks() {
             ) : (
                 <p>No tasks found</p>
             )}
-            <TaskCreate  
-                tasks={tasks} 
-                setTasks={setTasks}
-                newTask={newTask} 
-                setNewTask={setNewTask}   
-            />
+            <TaskCreate   />
         </div>
     );
 }

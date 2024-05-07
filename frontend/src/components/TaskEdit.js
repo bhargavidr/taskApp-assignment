@@ -3,8 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import MultiSelect from 'multiselect-react-dropdown';
 
 export default function TaskEdit(props) {
-    const { users, user, PORT } = useAuth();
-    const { setEditingTask, editingTask, setTasks, tasks} = props
+    const { users, user, PORT, dispatchAuth } = useAuth();
+    const { setEditingTask, editingTask} = props
 
     //for radio buttons
     const statuses = ['To do','In Progress','Completed']
@@ -26,13 +26,13 @@ export default function TaskEdit(props) {
     
             if (response.data) {
                 // console.log(response.data)
-                const updatedTasks = tasks.map((task) => {
+                const updatedTasks = user.tasks.map((task) => {
                     if (task._id === _id) {
                         return response.data;
                     }
                     return task;
                 });
-                setTasks(updatedTasks);
+                dispatchAuth({type:'TASK', payload: updatedTasks})
                 setEditingTask(null);
             } else {
                 console.log('Error editing task');

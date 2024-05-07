@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Await, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function TaskDetails(props) {
@@ -12,7 +12,6 @@ function TaskDetails(props) {
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editedComment, setEditedComment] = useState('');
 
-
     useEffect(() => {
         async function fetchTaskDetails() {
             try {
@@ -23,14 +22,11 @@ function TaskDetails(props) {
                 });
 
                 if (taskResponse) {
-
-                const assignedUserIds = taskResponse.data.assignedTo;
-
-                const assignedUsernames = users.filter(ele => assignedUserIds.includes(ele._id))
-                                                .map(ele =>  ele.username);
-                taskResponse.data.assignedUsernames = assignedUsernames
-                setTask(taskResponse.data)
-                // console.log(taskResponse.data)
+                    const assignedUserIds = taskResponse.data.assignedTo;
+                    const assignedUsernames = users.filter(ele => assignedUserIds.includes(ele._id))
+                                                    .map(ele =>  ele.username);
+                    taskResponse.data.assignedUsernames = assignedUsernames;
+                    setTask(taskResponse.data);
                 } else {
                     console.log('error fetching task details');
                 }
@@ -134,59 +130,68 @@ function TaskDetails(props) {
     return (
         <div>
             <h2>Task Details</h2>
-            {task && (
+            
                 <div>
-                    <p><b>Title:</b> {task.title}</p>
-                    <p><b>Description:</b> {task.description}</p>
-                    <p><b>Due Date: </b>{task.dueDate}</p>
-                    <p><b>Priority: </b>{task.priority}</p>
-                    <p><b>Created By: </b>{task.createdBy.username}</p>
-                    <p><b>Assigned to: </b></p><ul>
-                        {task.assignedUsernames.length > 0 && task.assignedUsernames.map((ele, i) => {
-                            return <li key={i} value={ele}>{ele}</li>
-                        }
-                            
-                        )}
-                    </ul>  
-                    <br />  
+                    {task && (
+                        <div>
+                            <p><b>Title:</b> {task.title}</p>
+                            <p><b>Description:</b> {task.description}</p>
+                            <p><b>Due Date: </b>{task.dueDate}</p>
+                            <p><b>Priority: </b>{task.priority}</p>
+                            <p><b>Created By: </b>{task.createdBy.username}</p>
+                            <p><b>Assigned to: </b></p>
+                            <ul>
+                                {task.assignedUsernames.length > 0 && task.assignedUsernames.map((ele, i) => {
+                                    return <li key={i} value={ele}>{ele}</li>
+                                })}
+                            </ul>  
+                        </div>
+                    )}
                 </div>
+
                 
-            )}
-            <h3>Comments</h3>
-            {comments.length > 0 ? (
-                <ul>
-                    {comments.map((comment) => (
-                        <li key={comment._id}>
-                            {editingCommentId === comment._id ? (
-                                <>
-                                    <input type="text" value={editedComment} onChange={(e) => setEditedComment(e.target.value)} />
-                                    <button onClick={() => handleEditComment(comment._id)}>Save</button>
-                                </>
-                            ) : (
-                                <>
-                                    {comment.text} - {comment.createdBy.username}
-                                    {comment.createdBy && comment.createdBy.id == user.account._id && 
-                                    <>
-                                        <button onClick={() => { setEditingCommentId(comment._id); setEditedComment(comment.text); }}>Edit</button>
-                                        <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
-                                    </>
-                                    }
-                                    
-                                </>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <div>
-                    <p>No comments found</p>
-                </div>
-            )}
-            <div>
-                <h4>Add Comment</h4>
-                <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} />
-                <button onClick={handleAddComment}>Add Comment</button>
-            </div>
+                    <div style={{ textAlign: 'right', margin: '0 auto', maxWidth: '500px'  }}>
+                        <input type="file" />
+                        <button>Upload File</button>
+                    </div>
+
+                    <h3>Comments</h3>
+                    {comments.length > 0 ? (
+                        <ul>
+                            {comments.map((comment) => (
+                                <li key={comment._id}>
+                                    {editingCommentId === comment._id ? (
+                                        <>
+                                            <input type="text" value={editedComment} onChange={(e) => setEditedComment(e.target.value)} />
+                                            <button onClick={() => handleEditComment(comment._id)}>Save</button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {comment.text} - {comment.createdBy.username} 
+                                            {comment.createdBy && comment.createdBy.id == user.account._id && 
+                                            <>
+                                                <button onClick={() => { setEditingCommentId(comment._id); setEditedComment(comment.text); }}>Edit</button>
+                                                <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
+                                            </>
+                                            }
+                                            
+                                        </>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div>
+                            <p>No comments found</p>
+                        </div>
+                    )}
+                    <div>
+                        <h4>Add Comment</h4>
+                        <textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+                        <button onClick={handleAddComment}>Add Comment</button>
+                    </div>
+                
+            
         </div>
     );
 }

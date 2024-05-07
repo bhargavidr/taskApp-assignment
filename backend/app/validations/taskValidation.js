@@ -67,7 +67,7 @@ const updateTask = Joi.object({
 
     priority:Joi.string().valid('high','medium','low').trim(true).insensitive(),
 
-    status: Joi.boolean().valid('To Do','In Progress','Completed'),
+    status: Joi.string().valid('To Do','In Progress','Completed').insensitive(),
 
     assignedTo:Joi.array().min(1)
             
