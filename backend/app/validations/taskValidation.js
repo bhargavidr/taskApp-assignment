@@ -13,10 +13,10 @@ const createTask = Joi.object({
                     .required(),
 
     dueDate:Joi.date()
-                .greater('now').message('due date must not be in the past')
+                .greater('now').message('due date must be greater than present time')
                 .required(),
 
-    assignedTo:Joi.array().min(1),
+    assignedTo:Joi.array(),
 
     priority:Joi.string()
                 .valid('High','Medium','Low')
@@ -69,7 +69,7 @@ const updateTask = Joi.object({
 
     status: Joi.string().valid('To Do','In Progress','Completed').insensitive(),
 
-    assignedTo:Joi.array().min(1)
+    assignedTo:Joi.array()
             
 })
 

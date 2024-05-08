@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+import FileUpload from './FileUpload';
+
 function TaskDetails(props) {
     const { users, user, PORT } = useAuth(); 
     const { taskId } = useParams();
@@ -149,12 +151,7 @@ function TaskDetails(props) {
                     )}
                 </div>
 
-                
-                    <div style={{ textAlign: 'right', margin: '0 auto', maxWidth: '500px'  }}>
-                        <input type="file" />
-                        <button>Upload File</button>
-                    </div>
-
+                    <FileUpload taskId={taskId}/>
                     <h3>Comments</h3>
                     {comments.length > 0 ? (
                         <ul>

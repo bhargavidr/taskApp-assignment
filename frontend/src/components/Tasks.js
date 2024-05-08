@@ -12,7 +12,7 @@ function Tasks() {
     const [editingTask, setEditingTask] = useState(null);
 
     useEffect(() => {
-        async function fetchData() {
+        async function fetchTasks() {
             try {
                 // Fetch tasks
                 const taskResponse = await axios.get(`http://localhost:${PORT}/api/tasks`, {
@@ -32,8 +32,8 @@ function Tasks() {
             }
         }
 
-        fetchData();
-    }, [PORT, user]);
+        fetchTasks();
+    }, [PORT, user, users]);
 
     const handleDeleteTask = async (taskId) => {
         try {

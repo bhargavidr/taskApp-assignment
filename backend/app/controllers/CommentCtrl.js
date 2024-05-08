@@ -16,7 +16,7 @@ commentCtrl.create= async (req, res) => {
         const comment = new Comment({
             taskId,
             text,
-            createdBy: {id: req.user._id, username:req.user.username},
+            createdBy: {id: req.user.id, username:req.user.username},
             createdAt: new Date() // Assuming the authenticated user is creating the comment
         });
 

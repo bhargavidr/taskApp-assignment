@@ -144,7 +144,8 @@ userCtrl.deleteUser = async (req, res) => {
             { $pull: { assignedTo: id } }, // Pull (remove) the specified user ID from the assignedTo array
             { multi: true });
 
-        await Comment.deleteMany({ "createdBy.id" : id });
+        const deletedComments = await Comment.deleteMany({ "createdBy.id" : id });
+        console.log(deletedComments)
         res.status(200).json({ deletedUser });
     } catch (err) {
         console.log('Error deleting user profile:', err);

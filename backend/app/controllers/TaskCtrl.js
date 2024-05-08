@@ -1,5 +1,5 @@
 const Task = require('../models/Task');
-// const { validationResult } = require('express-validator')
+const upload = require('../../config/multer')
 const taskCtrl = {};
 
 // Function to get all tasks
@@ -111,5 +111,23 @@ taskCtrl.assignUsersToTask = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+
+taskCtrl.uploadFile = async (req, res) => {
+    try {
+        const taskId = req.params.id;
+        const task = await Task.findByIdAndUpdate(taskId, { $set: { file: req.file.path } }, { new: true });
+        
+        if (!task) {
+            return res.status(404).json({ error: 'Task not found' });
+        }
+
+        res.status(200).json({ message: 'File uploaded successfully', task });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
 
 module.exports = taskCtrl;

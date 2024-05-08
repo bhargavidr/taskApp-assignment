@@ -91,7 +91,8 @@ export default function TaskEdit(props) {
                 {editingTask.createdBy.id == user.account._id && (
                         <MultiSelect
                         showCheckbox
-                        options={users.map(ele => ({ key: ele._id, value: ele.username }))}
+                        options={users.filter(ele => ele?.username !== user.account?.username)
+                                    .map(ele => ({ key: ele._id, value: ele.username }))}
                         onSelect={(selectedUsers) => handleAssignTask(selectedUsers.map(item => item.key))}
                         onRemove={(selectedUsers) => handleAssignTask(selectedUsers.map(item => item.key))}
                         displayValue="value"

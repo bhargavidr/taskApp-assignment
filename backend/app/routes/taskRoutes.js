@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const upload = require('../../config/multer')
 
 
 //contollers
@@ -15,11 +16,15 @@ const authLayer = require('../middleware/authLayer')
 
 router.get('', taskCtrl.getAllTasks);
 router.post('', taskValidate.create, taskCtrl.createTask);
-//B - added get comments here so if we fetch one task, all comments under that task is also displayed
 router.get('/:id',isValidID, taskCtrl.getSingleTask); 
 router.put('/:id',isValidID, authLayer.task, taskValidate.update, taskCtrl.updateTask);
 router.delete('/:id',isValidID, authLayer.deleteTask, taskCtrl.deleteTask);
 router.post('/assignUsers', taskCtrl.assignUsersToTask);
+
+//file upload
+router.post('/:id/upload', isValidID, authLayer.task, upload.single('file'), taskCtrl.uploadFile);
+
+
 
 
 

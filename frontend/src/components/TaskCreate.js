@@ -3,11 +3,10 @@ import {useState} from 'react'
 import { useAuth } from '../context/AuthContext';
 import MultiSelect from 'multiselect-react-dropdown'
 
-// import './assignedToCheckbox.css'
 
 
 export default function TaskCreate(){
-    const {users, PORT, dispatchAuth} = useAuth() 
+    const {users,user, PORT, dispatchAuth} = useAuth() 
 
     const [newTask, setNewTask] = useState({
         title: '',
@@ -86,7 +85,8 @@ export default function TaskCreate(){
                 <input type="date" placeholder="Due Date" value={newTask.dueDate} onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })} />
                 <MultiSelect
                     showCheckbox
-                    options={users.map(user => ({ key: user._id, value: user.username }))}
+                    options={users.filter(ele => ele?.username !== user.account?.username)
+                                    .map(ele => ({ key: ele?._id, value: ele?.username }))}
                     onSelect={(selectedList) => handleAssignTask(selectedList.map(item => item.key))}
                     onRemove={(selectedList) => handleAssignTask(selectedList.map(item => item.key))}
                     displayValue="value"

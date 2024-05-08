@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
     const PORT = 5000
 
     useEffect(()=> {
+        //get all users data
         async function getUsers(){
             try {
                 const usersResponse = await axios.get(`http://localhost:${PORT}/api/users`, {
@@ -51,6 +52,8 @@ export const AuthProvider = ({ children }) => {
             }
         }
         getUsers()
+
+        
 
     },[user.account])
 
