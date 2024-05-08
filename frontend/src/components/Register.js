@@ -81,7 +81,7 @@ export default function Register() {
                     onChange={(e) => setUsername(e.target.value)}
                     id="username"
                 />
-                {clientErrors.username && <span> {clientErrors.username}</span>}
+                {clientErrors.username && <span className='error'> {clientErrors.username}</span>}
                 <br />
 
                 <label htmlFor="email">Enter email</label><br />
@@ -91,7 +91,7 @@ export default function Register() {
                     onChange={(e) => setEmail(e.target.value)}
                     id="email"
                 />
-                {clientErrors.email && <span> {clientErrors.email}</span>}
+                {clientErrors.email && <span className='error'> {clientErrors.email}</span>}
                 <br />
 
                 <label htmlFor="password">Enter Password</label><br />
@@ -101,7 +101,7 @@ export default function Register() {
                     onChange={(e) => setPassword(e.target.value)}
                     id="password"
                 />
-                {clientErrors.password && <span> {clientErrors.password}</span>}
+                {clientErrors.password && <span className='error'> {clientErrors.password}</span>}
                 <br />
 
                 <input type="submit" />

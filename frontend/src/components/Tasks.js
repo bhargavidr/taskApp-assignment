@@ -36,24 +36,31 @@ function Tasks() {
     }, [PORT, user, users]);
 
     const handleDeleteTask = async (taskId) => {
-        try {
-            const response = await axios.delete(`http://localhost:${PORT}/api/tasks/${taskId}`, {
-                headers: {
-                    Authorization: localStorage.getItem('token')
+            try {
+                if ((window.confirm('Task will be deleted permanently!'))) {
+                    const response = await axios.delete(`http://localhost:${PORT}/api/tasks/${taskId}`, {
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                });
+    
+                if (response.data) {
+                    const updatedTasks = user.tasks.filter(task => task._id !== taskId);
+                    // setTasks(updatedTasks);
+                    dispatchAuth({ type: 'TASK', payload: updatedTasks });
+                } else {
+                    console.log('Error deleting task');
                 }
-            });
 
-            if (response.data) {
-                const updatedTasks = user.tasks.filter(task => task._id !== taskId);
-                // setTasks(updatedTasks);
-                dispatchAuth({type:'TASK', payload: updatedTasks})
-            } else {
-                console.log('Error deleting task');
+                }else{
+                    alert('Deletion cancelled')
+                }                
+            } catch (error) {
+                console.error("Error deleting task:", error);
             }
-        } catch (error) {
-            console.error("Error deleting task:", error);
-        }
+        
     };
+    
 
     return (
         <div>

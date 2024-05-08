@@ -5,7 +5,7 @@ const commentSchema = Joi.object({
     text: Joi.string()
         .required()
         .trim(true)
-        .min(1)
+        .min(1).message('Cannot add empty comment')
         .max(255),
 
     taskId: Joi.string()

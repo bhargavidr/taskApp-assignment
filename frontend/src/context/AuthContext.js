@@ -53,9 +53,7 @@ export const AuthProvider = ({ children }) => {
         }
         getUsers()
 
-        
-
-    },[user.account])
+    },[users])
 
     return (
         <AuthContext.Provider value={{ PORT, user, dispatchAuth, users }}>

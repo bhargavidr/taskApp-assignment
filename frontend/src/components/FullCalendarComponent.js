@@ -3,7 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
 function FullCalendarComponent({ tasks }) {
-    console.log(tasks)
+    // console.log(tasks)
     const events = tasks?.map(task => ({
         title: task.title,
         start: task.createdAt, // Use createdAt as the event start date

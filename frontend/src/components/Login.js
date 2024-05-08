@@ -94,7 +94,7 @@ export default function Login() {
                     name="email"
                     id="email"
                 />
-                {form.clientErrors.email && <span> {form.clientErrors.email} </span>}
+                {form.clientErrors.email && <span className='error'> {form.clientErrors.email} </span>}
                 <br />
 
                 <label htmlFor="password">Enter password</label><br />
@@ -105,7 +105,7 @@ export default function Login() {
                     name="password"
                     id="password"
                 />
-                {form.clientErrors.password && <span> {form.clientErrors.password} </span>}
+                {form.clientErrors.password && <span className='error'> {form.clientErrors.password} </span>}
                 <br />
 
                 <input type="submit" />

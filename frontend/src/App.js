@@ -30,7 +30,7 @@ function App() {
           <Link to="/account">Account</Link> |
           <Link to="/" onClick={() => {
             localStorage.removeItem('token');
-            dispatch('LOGOUT');
+            dispatch({type:'LOGOUT'});
           }}> Logout </Link> |
             </PrivateRoute>
         </>
