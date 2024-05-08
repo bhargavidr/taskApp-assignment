@@ -44,6 +44,7 @@ taskCtrl.createTask = async (req, res) => {
             assignedTo,
             priority,
             status,
+            timeSpent:`00:00:00`,
             createdBy: {id: req.user.id, username: req.user.username},
         });
         // console.log(newTask)
@@ -58,7 +59,7 @@ taskCtrl.createTask = async (req, res) => {
 // Function to update a task
 taskCtrl.updateTask = async (req, res) => {
     try {
-        const { title, description,dueDate,priority,status,assignedTo } = req.body;
+        const { title, description,dueDate,priority,status,assignedTo,timeSpent } = req.body;
         const taskID = req.params.id
         const updatedTask = await Task.findByIdAndUpdate(taskID, {
             title,
@@ -66,7 +67,8 @@ taskCtrl.updateTask = async (req, res) => {
             dueDate,
             priority,
             status,
-            assignedTo
+            assignedTo,
+            timeSpent
         }, { new: true });
         
         if (!updatedTask) {

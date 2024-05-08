@@ -37,8 +37,7 @@ const taskSchema = new mongoose.Schema({
         type: Date
     },
     timeSpent: {
-        type: Number,
-        default: 0 // Represents time spent in minutes
+        type: String,
     },
     files: [{ 
         type: String // Store file paths or metadata

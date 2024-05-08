@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 import FileUpload from './FileUpload';
 import Comments from './Comments';
+import TimeTracker from './TimeTracker';
 
 function TaskDetails(props) {
     const { users, user, PORT } = useAuth(); 
@@ -61,12 +62,11 @@ function TaskDetails(props) {
    
 
     return (
-        <div>
-            <h2>Task Details</h2>
-            
-                <div>
+        <div>    
+            <h2>Task Details</h2>                           
                     {task && (
-                        <div>
+                        <>
+                         <div >
                             <p><b>Title:</b> {task.title}</p>
                             <p><b>Description:</b> {task.description}</p>
                             <p><b>Due Date: </b>{task.dueDate}</p>
@@ -79,13 +79,15 @@ function TaskDetails(props) {
                                 })}
                             </ul>  
                         </div>
-                    )}
-                </div>
+                        <div >
+                        <FileUpload taskId={taskId}/>
+                    </div>
 
-                    <FileUpload taskId={taskId}/>
-                    <Comments taskId={taskId} comments={comments} setComments={setComments}/>
-                    
-            
+                        <Comments taskId={taskId} comments={comments} setComments={setComments}/>
+                                     
+                        <TimeTracker id={task._id} task={task}/>                    
+                    </>
+                    )}
         </div>
     );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import {useAuth} from '../context/AuthContext'
 import FullCalendarComponent from './FullCalendarComponent'; 
 
+
 function Home() {
 
   const {user} = useAuth()

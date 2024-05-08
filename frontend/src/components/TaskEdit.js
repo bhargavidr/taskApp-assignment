@@ -30,7 +30,7 @@ export default function TaskEdit(props) {
 
 
     const handleEditTask = async (e) => {
-        console.log(editingTask.title, 'title')
+        // console.log(editingTask.title, 'title')
 
         runClientValidations()
 

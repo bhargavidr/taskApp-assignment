@@ -75,7 +75,11 @@ export default function TaskCreate(){
     };
 
     const handleAssignTask = (usersList) => {
-        setNewTask({ ...newTask, assignedTo: usersList });
+        if(usersList.length == 0){
+            setNewTask({...newTask, assignedTo: []})
+        }else{
+            setNewTask({ ...newTask, assignedTo: usersList });
+        }
     };
 
     

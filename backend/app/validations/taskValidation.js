@@ -69,6 +69,8 @@ const updateTask = Joi.object({
 
     status: Joi.string().valid('To Do','In Progress','Completed').insensitive(),
 
+    timeSpent: Joi.string(),
+
     assignedTo:Joi.array()
             
 })

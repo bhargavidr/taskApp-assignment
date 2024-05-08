@@ -106,7 +106,7 @@ export default function Comments({taskId, comments, setComments}){
 
     return(
         <>
-        <h3>Comments</h3>
+        <h2>Comments</h2>
                     {comments.length > 0 ? (
                         <ul>
                             {comments.map((comment) => (
