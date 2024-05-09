@@ -18,6 +18,7 @@ const PORT = process.env.PORT;
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use('./uploads',express.static('files'))
 
 // Connect to the database
 configureDB();

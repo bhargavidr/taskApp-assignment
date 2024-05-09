@@ -78,6 +78,7 @@ function TaskDetails(props) {
                                     return <li key={i} value={ele}>{ele}</li>
                                 })}
                             </ul>  
+                            <p><b>Total time tracked:</b> {task.timeSpent}</p>
                         </div>
                         <div >
                         <FileUpload taskId={taskId}/>

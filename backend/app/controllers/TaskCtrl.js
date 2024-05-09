@@ -1,5 +1,5 @@
 const Task = require('../models/Task');
-const upload = require('../../config/multer')
+const File = require('../models/File')
 const taskCtrl = {};
 
 // Function to get all tasks
@@ -109,7 +109,7 @@ taskCtrl.assignUsersToTask = async (req, res) => {
 
         res.json({ message: 'Users assigned to task successfully' });
     } catch (error) {
-        console.error(error);
+        console.log(error);
         res.status(500).json({ error: 'Server error' });
     }
 };
@@ -117,19 +117,60 @@ taskCtrl.assignUsersToTask = async (req, res) => {
 
 taskCtrl.uploadFile = async (req, res) => {
     try {
-        const taskId = req.params.id;
-        const task = await Task.findByIdAndUpdate(taskId, { $set: { file: req.file.path } }, { new: true });
+        const taskId = req.params.taskId;
         
-        if (!task) {
-            return res.status(404).json({ error: 'Task not found' });
-        }
+        // Extract file information
+        const title = req.body.title
+        const file = req.file.filename
 
-        res.status(200).json({ message: 'File uploaded successfully', task });
+        // Save file information to database
+        const newFile = new File({
+            title,
+            file,
+            taskId, 
+        });
+        await newFile.save();
+
+        res.status(200).json({newFile});
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        res.status(500).json({ message: 'Error uploading file' });
+    }
+};
+
+taskCtrl.getTaskFiles = async (req, res) => {
+    try {
+        const taskId = req.params.taskId;
+        const files = await File.find({taskId});
+
+        // console.log(files,'files')
+        if (files) {
+            res.status(200).json(files);
+        }        
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+
+taskCtrl.getFile = async(req,res) => {
+    try {
+        const { pdf } = req.params;
+    
+        const file = await File.findOne({ file: pdf });
+    
+        if (!file) {
+          return res.status(404).json({ error: 'File not found' });
+        }
+    
+        res.json(file);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+      }
+}
+
 
 
 module.exports = taskCtrl;

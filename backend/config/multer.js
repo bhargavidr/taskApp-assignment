@@ -1,14 +1,15 @@
 // backend/config/multer.js
 
 const multer = require('multer');
+const path = require('path');
 
 const storage = multer.diskStorage({
+    
     destination: function (req, file, cb) {
-        cb(null, 'C:/Users/BHARGAVI BHAT/Documents/MERN course/task-app/backend/uploads');
- 
+        cb(null, path.join(__dirname, '../uploads'));
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname); // Append timestamp to filename
+        cb(null, Date.now() + file.originalname); // Append timestamp to filename
     }
 });
 

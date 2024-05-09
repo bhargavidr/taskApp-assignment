@@ -5,7 +5,6 @@ const upload = require('../../config/multer')
 
 //contollers
 const taskCtrl = require('../controllers/TaskCtrl');
-const commentCtrl = require('../controllers/CommentCtrl')
 
 //validations
 const taskValidate = require('../validations/taskValidation')
@@ -22,7 +21,10 @@ router.delete('/:id',isValidID, authLayer.deleteTask, taskCtrl.deleteTask);
 router.post('/assignUsers', taskCtrl.assignUsersToTask);
 
 //file upload
-router.post('/:id/upload', isValidID, authLayer.task, upload.single('file'), taskCtrl.uploadFile);
+router.post('/upload/:taskId', upload.single('file'), taskCtrl.uploadFile);
+router.get('/files/:taskId',taskCtrl.getTaskFiles)
+router.get('/files/:pdf', taskCtrl.getFile)
+
 
 
 
