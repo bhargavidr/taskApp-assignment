@@ -33,7 +33,7 @@ function Tasks() {
         }
 
         fetchTasks();
-    }, [PORT, user, users]);
+    }, [PORT, user.tasks]);
 
     const handleDeleteTask = async (taskId) => {
             try {

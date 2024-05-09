@@ -12,7 +12,7 @@ import PrivateRoute from './components/PrivateRoute';
 
 
 function App() {
-  const { user, dispatch } = useAuth();
+  const { user, dispatchAuth } = useAuth();
 
   return (
     <div>
@@ -30,7 +30,7 @@ function App() {
           <Link to="/account">Account</Link> |
           <Link to="/" onClick={() => {
             localStorage.removeItem('token');
-            dispatch({type:'LOGOUT'});
+            dispatchAuth({type:'LOGOUT'});
           }}> Logout </Link> |
             </PrivateRoute>
         </>

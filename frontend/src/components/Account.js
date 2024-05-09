@@ -73,7 +73,7 @@ function Account() {
     const handleSubmit = async () => {
         runValidations()
 
-        if(Object.keys(errors).length == 0){
+        if(Object.keys(errors).length <= 1 ){
             try {
                 const editedResponse = await axios.put(`http://localhost:${PORT}/api/users/${user.account._id}`, editedUser, {
                     headers: {
