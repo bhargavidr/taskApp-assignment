@@ -11,7 +11,7 @@ export default function TaskCreate(){
     const [newTask, setNewTask] = useState({
         title: '',
         description: '',
-        assignedTo: '',
+        assignedTo: []      ,
         priority: '',
         dueDate: '',
         status:'',
